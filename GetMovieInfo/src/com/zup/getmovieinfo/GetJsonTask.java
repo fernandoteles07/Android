@@ -11,16 +11,26 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.squareup.picasso.Picasso;
+
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GetJsonTask extends AsyncTask<String, String, String> {
 	
+	Context context;
 	TextView mText;
+	ImageView mImg;
 	String getJson;
 	
-	public GetJsonTask(TextView mText) {
+	public GetJsonTask(Context context, TextView mText, ImageView mImg) {
+		this.context = context;
 		this.mText = mText;
+		this.mImg = mImg;
 	}
 
 	@Override
@@ -41,8 +51,12 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 			while ((line = bReader.readLine()) != null ) {
 				sBuffer.append(line);
 			}
+			
+			String b =  sBuffer.toString();
 		
-			return sBuffer.toString();
+			return b;
+
+		
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -71,8 +85,11 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		
+		
+		
 		try {
 			mText.setText(parseJson("Title", result));
+			Picasso.with(context).load(parseJson("Poster", result)).into(mImg);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

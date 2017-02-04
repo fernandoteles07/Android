@@ -3,8 +3,10 @@
 
     <string name="app_name">GetMovieInfo</string>
     <string name="welcome_message">Welcome to Get Movie Info</string>
-     <string name="type_message">Enter with the movie title</string>
-     <string name="search_message">Search for movie title</string>
-     <string name="ok_button">OK</string>
+    <string name="type_message">Enter with the movie title</string>
+    <string name="search_message">Search for movie title</string>
+    <string name="ok_button">OK</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
