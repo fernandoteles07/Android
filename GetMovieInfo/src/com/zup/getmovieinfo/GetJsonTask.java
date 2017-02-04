@@ -7,12 +7,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.widget.TextView;
 
 public class GetJsonTask extends AsyncTask<String, String, String> {
 	
 	TextView mText;
+	String getJson;
 	
 	public GetJsonTask(TextView mText) {
 		this.mText = mText;
@@ -66,7 +71,25 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		
-		mText.setText(result);
+		try {
+			mText.setText(parseJson("Title", result));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+	}
+	
+	public String parseJson (String detail, String getJson) throws JSONException {
+		
+		JSONObject jObj = null;
+		try {
+			jObj = new JSONObject(getJson);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jObj.getString(detail);
+
 	}
 }
