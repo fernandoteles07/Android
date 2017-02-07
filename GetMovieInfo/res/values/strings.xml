@@ -16,5 +16,11 @@
     <string name="dGenre">Genre: </string>
     <string name="dTime">Time: </string>
     <string name="dDirector">Director: </string>
-
+    <string name="alert_dialog_clear_item">Are you sure you want to delete this item?</string>
+    <string name="alert_dialog_clear_all">Are you sure you want to delete all items?</string>
+    <string name="alert_dialog_title">Attention</string>
+    <string name="yes_option">Yes</string>
+    <string name="no_option">No</string>
+    
+    
 </resources>

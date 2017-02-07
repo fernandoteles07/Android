@@ -24,7 +24,6 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 	ImageView mImg;
 	String getJson;
 
-
 	public GetJsonTask(Context context, TextView mText, ImageView mImg) {
 
 		this.context = context;

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MyListActivity extends Activity {
 
@@ -61,14 +64,25 @@ public class MyListActivity extends Activity {
 		// If user long click on movie title item clear it from List
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-				// Remove deleted item from app shared preferences 
-				pref.edit().remove(parent.getAdapter().getItem(position).toString()).commit();
-				// Remove deleted item from adapter
-				adapter.remove(parent.getAdapter().getItem(position).toString());
-				adapter.notifyDataSetChanged();
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle(R.string.alert_dialog_title);
+				builder.setMessage(R.string.alert_dialog_clear_item);
+				builder.setPositiveButton(R.string.yes_option,
+						new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// Remove deleted item from app shared preferences 
+						pref.edit().remove(parent.getAdapter().getItem(position).toString()).commit();
+						// Remove deleted item from adapter
+						adapter.remove(parent.getAdapter().getItem(position).toString());
+						adapter.notifyDataSetChanged();
+						Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+					}
+				});
 
+				builder.setNegativeButton(R.string.no_option, null);
+				builder.show();
 				return true;
 			}
 
@@ -86,11 +100,22 @@ public class MyListActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				pref.edit().clear().commit();
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle(R.string.alert_dialog_title);
+				builder.setMessage(R.string.alert_dialog_clear_all);
+				builder.setPositiveButton(R.string.yes_option,
+						new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						pref.edit().clear().commit();
+						adapter.clear();
+						adapter.notifyDataSetChanged();
+						Toast.makeText(context, "All items was deleted", Toast.LENGTH_SHORT).show();
+					}
+				});
 
-				adapter.clear();
-				adapter.notifyDataSetChanged();
-
+				builder.setNegativeButton(R.string.no_option, null);
+				builder.show();
+				
 			}
 		});
 	}
