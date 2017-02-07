@@ -18,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +27,7 @@ public class MainActivity extends Activity {
 	private final String SHARED_GLOBAL_KEY = "globalKey";
 	private final String MAIN_URL = "http://www.omdbapi.com/?t=";
 	private final String FILTER_URL = "&y=&plot=short&r=json";
-	private String jFile = "";
+	private String jFile = null;
 
 	Context context = this;
 	EditText mEdit;
@@ -36,7 +35,6 @@ public class MainActivity extends Activity {
 	Button mListButton;
 	TextView mText;
 	ImageView mImg;
-	ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +89,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				if (!jFile.isEmpty()) {
+				if (!(jFile==null)) {
 					Intent iMovieDetail = new Intent(context, MovieDetailActivity.class);
 					iMovieDetail.putExtra(JSON_KEY, jFile);
 					startActivity(iMovieDetail);
@@ -102,7 +100,7 @@ public class MainActivity extends Activity {
 		// If user long click on movie image add movie to List
 		mImg.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View arg0) {
-				if (!jFile.isEmpty()) {
+				if (!(jFile==null)) {
 					try {
 						putJsontoList(context, jFile);
 					} catch (JSONException e) {

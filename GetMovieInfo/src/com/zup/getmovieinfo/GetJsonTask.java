@@ -16,6 +16,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GetJsonTask extends AsyncTask<String, String, String> {
 
@@ -82,16 +83,27 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 
-		JsonParser jp = new JsonParser();
+		if (result!=null) {
+			JsonParser jp = new JsonParser();
 
-		// Set movie title and movie poster in Main Activity
-		try {
-			mText.setText(jp.parseJson("Title", result));
-			// External Lib for set online image easier
-			Picasso.with(context).load(jp.parseJson("Poster",result)).into(mImg);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				if (jp.parseJson("Response", result).equals("True")) {
+					mText.setText(jp.parseJson("Title", result));
+					// Set movie title and movie poster in Main Activity
+					// External Lib for set online image easier
+					Picasso.with(context).load(jp.parseJson("Poster",result)).into(mImg);
+					// If response equal false means no results
+				} else {
+					Toast.makeText(context, "No Results", Toast.LENGTH_SHORT).show();
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else {
+			Toast.makeText(context, "No Results", Toast.LENGTH_SHORT).show();
 		}
 	}
 }
