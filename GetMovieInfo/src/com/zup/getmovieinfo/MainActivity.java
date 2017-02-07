@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,6 +54,9 @@ public class MainActivity extends Activity {
 		mSearchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				// Hide Keyboard 
+				hideKeyboard();
 
 				// Get user input
 				String getEdit = mEdit.getText().toString();
@@ -128,5 +132,11 @@ public class MainActivity extends Activity {
 
 		editor.putString(sharedKey, jsonObject);
 		editor.commit();
+	}
+
+	public void hideKeyboard() {
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	}
 }
