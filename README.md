@@ -54,6 +54,19 @@ In order to delete a item from your List yous must perform a long click on item,
 You can delete all items too clicking on Clear All button
 ```
 
+## Title Movies tested [Example]
+
+The app worked fine when the title movies below were typed
+
+- Titanic
+- The ring
+- Ring
+- Home alone
+- Fast
+- Filme
+- Star
+- Among others
+
 ## Author
 
 * **Fernando Teles**
