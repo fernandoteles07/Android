@@ -65,7 +65,7 @@ The app worked fine when the title movies below were typed
 - Fast
 - Filme
 - Star
-- Among others
+and etc.
 
 ## Author
 
