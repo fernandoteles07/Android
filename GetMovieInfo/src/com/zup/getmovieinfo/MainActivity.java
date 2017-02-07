@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,7 +50,6 @@ public class MainActivity extends Activity {
 		mImg = (ImageView) findViewById(R.id.imPoster);
 
 
-
 		// Click on OK button for database request
 		mSearchButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -58,26 +58,30 @@ public class MainActivity extends Activity {
 				// Hide Keyboard 
 				hideKeyboard();
 
-				// Get user input
-				String getEdit = mEdit.getText().toString();
+				if (isOnline()) {
 
-				// Check if user typed some space
-				if (getEdit.contains(" ")) {
-					getEdit = mEdit.getText().toString().replace(" ", "+");
-				} 
+					// Get user input
+					String getEdit = mEdit.getText().toString();
 
-				// Get AsyncTask return 
-				try {
-					jFile = new GetJsonTask(context, mText, mImg).execute(MAIN_URL + getEdit + FILTER_URL).get();
+					// Check if user typed some space
+					if (getEdit.contains(" ")) {
+						getEdit = mEdit.getText().toString().replace(" ", "+");
+					} 
 
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					// Get AsyncTask return 
+					try {
+						jFile = new GetJsonTask(context, mText, mImg).execute(MAIN_URL + getEdit + FILTER_URL).get();
+
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					Toast.makeText(context, "You are Offline", Toast.LENGTH_SHORT).show();
 				}
-
 
 			}
 		});
@@ -87,20 +91,24 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Intent iMovieDetail = new Intent(context, MovieDetailActivity.class);
-				iMovieDetail.putExtra(JSON_KEY, jFile);
-				startActivity(iMovieDetail);
+				if (!jFile.isEmpty()) {
+					Intent iMovieDetail = new Intent(context, MovieDetailActivity.class);
+					iMovieDetail.putExtra(JSON_KEY, jFile);
+					startActivity(iMovieDetail);
+				}
 			}
 		});
 
 		// If user long click on movie image add movie to List
 		mImg.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View arg0) {
-				try {
-					putJsontoList(context, jFile);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (!jFile.isEmpty()) {
+					try {
+						putJsontoList(context, jFile);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				return true; 
 			}
@@ -139,4 +147,10 @@ public class MainActivity extends Activity {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	}
+
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
+	}
 }
+
