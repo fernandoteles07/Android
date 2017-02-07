@@ -49,6 +49,11 @@ public class MyListActivity extends Activity {
 		lv.setAdapter(adapter);
 
 		loadPreferences();
+		
+		// Show a toast if list is empty
+		if (adapter.getCount() == 0) {
+			Toast.makeText(context, "Your list is empty", Toast.LENGTH_SHORT).show();
+		}
 
 		// If user click on movie title item go to MovieDetailActivity
 		lv.setOnItemClickListener(new OnItemClickListener() {
