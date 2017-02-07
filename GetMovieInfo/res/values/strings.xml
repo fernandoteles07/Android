@@ -12,10 +12,13 @@
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="my_List_Text">My List</string>
     <string name="title_activity_my_list">MyListActivity</string>
-    <string name="dYear">Year: </string>
-    <string name="dGenre">Genre: </string>
-    <string name="dTime">Time: </string>
-    <string name="dDirector">Director: </string>
+    <string name="dYear">Year:</string>
+    <string name="dGenre">Genre:</string>
+    <string name="dTime">Time:</string>
+    <string name="dDirector">Director:</string>
+    <string name="dActors">Actors:</string>
+    <string name="dLanguage">Language:</string>
+    <string name="dCountry">Country:</string>
     <string name="alert_dialog_clear_item">Are you sure you want to delete this item?</string>
     <string name="alert_dialog_clear_all">Are you sure you want to delete all items?</string>
     <string name="alert_dialog_title">Attention</string>

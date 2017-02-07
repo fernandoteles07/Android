@@ -24,6 +24,9 @@ public class MovieDetailActivity extends Activity {
 	TextView dGenre;
 	TextView dTime;
 	TextView dDirector;
+	TextView dActors;
+	TextView dCountry;
+	TextView dLanguage;
 	ImageView dPoster;
 	Button btBack;
 
@@ -38,6 +41,9 @@ public class MovieDetailActivity extends Activity {
 		dGenre = (TextView) findViewById(R.id.tvGenre);
 		dTime = (TextView) findViewById(R.id.tvTime);
 		dDirector = (TextView) findViewById(R.id.tvDirector);
+		dActors = (TextView) findViewById(R.id.tvActors);
+		dCountry = (TextView) findViewById(R.id.tvCountry);
+		dLanguage = (TextView) findViewById(R.id.tvLanguage);
 		dPoster = (ImageView) findViewById(R.id.ivPoster);
 		btBack = (Button) findViewById(R.id.btDBack);
 
@@ -62,6 +68,9 @@ public class MovieDetailActivity extends Activity {
 			dGenre.setText(jp.parseJson("Genre",getJson));
 			dTime.setText(jp.parseJson("Runtime",getJson));
 			dDirector.setText(jp.parseJson("Director",getJson));
+			dActors.setText(jp.parseJson("Actors",getJson));
+			dCountry.setText(jp.parseJson("Country",getJson));
+			dLanguage.setText(jp.parseJson("Language",getJson));
 			// External Lib for set online image easier
 			Picasso.with(this).load(jp.parseJson("Poster",getJson)).into(dPoster);
 
