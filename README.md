@@ -56,4 +56,4 @@ You can delete all items too clicking on Clear All button
 
 ## Author
 
-* **Fernando Teles** - [PurpleBooth](https://github.com/fernandoteles07)
+* **Fernando Teles**
