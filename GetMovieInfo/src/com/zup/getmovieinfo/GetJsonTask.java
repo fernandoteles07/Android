@@ -9,25 +9,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class GetJsonTask extends AsyncTask<String, String, String> {
-	
+
 	Context context;
 	TextView mText;
 	ImageView mImg;
 	String getJson;
-	
+
+
 	public GetJsonTask(Context context, TextView mText, ImageView mImg) {
+
 		this.context = context;
 		this.mText = mText;
 		this.mImg = mImg;
@@ -35,10 +34,11 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		
+
 		HttpURLConnection connection = null;
 		BufferedReader bReader = null;
 
+		// Perform URL request
 		try {
 			URL url = new URL (params[0]);
 			connection = (HttpURLConnection) url.openConnection();
@@ -51,12 +51,10 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 			while ((line = bReader.readLine()) != null ) {
 				sBuffer.append(line);
 			}
-			
-			String b =  sBuffer.toString();
-		
-			return b;
 
-		
+			String requestResponse =  sBuffer.toString();
+
+			return requestResponse;
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -77,36 +75,24 @@ public class GetJsonTask extends AsyncTask<String, String, String> {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		
-		
-		
-		try {
-			mText.setText(parseJson("Title", result));
-			Picasso.with(context).load(parseJson("Poster", result)).into(mImg);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public String parseJson (String detail, String getJson) throws JSONException {
-		
-		JSONObject jObj = null;
-		try {
-			jObj = new JSONObject(getJson);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return jObj.getString(detail);
 
+		JsonParser jp = new JsonParser();
+
+		// Set movie title and movie poster in Main Activity
+		try {
+			mText.setText(jp.parseJson("Title", result));
+			// External Lib for set online image easier
+			Picasso.with(context).load(jp.parseJson("Poster",result)).into(mImg);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

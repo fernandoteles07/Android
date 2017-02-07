@@ -6,7 +6,15 @@
     <string name="type_message">Enter with the movie title</string>
     <string name="search_message">Search for movie title</string>
     <string name="ok_button">OK</string>
+    <string name="back_button">Back</string>
+    <string name="my_list_button">My List</string>
+    <string name="clear_all_button">Clear all</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="my_List_Text">My List</string>
+    <string name="title_activity_my_list">MyListActivity</string>
+    <string name="dYear">Year: </string>
+    <string name="dGenre">Genre: </string>
+    <string name="dTime">Time: </string>
+    <string name="dDirector">Director: </string>
 
 </resources>

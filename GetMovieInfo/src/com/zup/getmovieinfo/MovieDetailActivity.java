@@ -1,7 +1,6 @@
 package com.zup.getmovieinfo;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +15,9 @@ import android.widget.TextView;
 
 public class MovieDetailActivity extends Activity {
 
+	private final String JSON_KEY = "jKey";
+	String getJson = "";
+
 	TextView dTitle;
 	TextView dPlot;
 	TextView dYear;
@@ -23,7 +25,6 @@ public class MovieDetailActivity extends Activity {
 	TextView dTime;
 	TextView dDirector;
 	ImageView dPoster;
-	String getName;
 	Button btBack;
 
 	@Override
@@ -38,47 +39,43 @@ public class MovieDetailActivity extends Activity {
 		dTime = (TextView) findViewById(R.id.tvTime);
 		dDirector = (TextView) findViewById(R.id.tvDirector);
 		dPoster = (ImageView) findViewById(R.id.ivPoster);
-		btBack = (Button) findViewById(R.id.btBack);
+		btBack = (Button) findViewById(R.id.btDBack);
 
 		Intent intent = getIntent();
 		Bundle bd = intent.getExtras();       
-		if(bd != null)
-		{
-			getName = (String) bd.get("pjFile");            
+
+		if(bd != null) {
+			getJson = (String) bd.get(JSON_KEY);            
 		}
+
+		JsonParser jp = new JsonParser();
+
 		try {
-			dTitle.setText(parseJson("Title"));
-			dPlot.setText(parseJson("Plot"));
-			dYear.setText(parseJson("Year"));
-			dGenre.setText(parseJson("Genre"));
-			dTime.setText(parseJson("Runtime"));
-			dDirector.setText(parseJson("Director"));
-			Picasso.with(this).load(parseJson("Poster")).into(dPoster);
+
+			// Set activity name
+			this.setTitle("Movie: " + jp.parseJson("Title",getJson));
+
+			// Set Views
+			dTitle.setText(jp.parseJson("Title",getJson));
+			dPlot.setText(jp.parseJson("Plot",getJson));
+			dYear.setText(jp.parseJson("Year",getJson));
+			dGenre.setText(jp.parseJson("Genre",getJson));
+			dTime.setText(jp.parseJson("Runtime",getJson));
+			dDirector.setText(jp.parseJson("Director",getJson));
+			// External Lib for set online image easier
+			Picasso.with(this).load(jp.parseJson("Poster",getJson)).into(dPoster);
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		btBack.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 
 				finish();
 			}
 		});
-	}
-
-	public String parseJson (String detail) throws JSONException {
-
-		JSONObject jObj = null;
-		try {
-			jObj = new JSONObject(getName);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return jObj.getString(detail);
-
 	}
 }
